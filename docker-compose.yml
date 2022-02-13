@@ -1,0 +1,38 @@
+version: '3'
+services:
+  db:
+    image: mariadb:10.4
+    container_name: "laravel-db"
+    volumes:
+      - ./data:/var/lib/mysql
+      - .db/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      TZ: 'Asia/Tokyo'
+    ports:
+      - "3306:3306"
+  php:
+    build: ./php
+    container_name: "laravel-php"
+    volumes:
+      - ./source:/var/www/html
+      - ./php/vhost.conf:/etc/apache2/conf-enabled/vhost.conf
+    ports:
+      - "8080:80"
+  phpmyadmin:
+    image: phpmyadmin:5.1.3
+    container_name: "laravel-phpmyadmin"
+    depends_on:
+      - db
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=db
+      - PMA_USER=docker
+      - PMA_PASSWORD=docker
+    ports:
+      - "3000:80"
+    volumes:
+      - ./phpmyadmin/sessions:/sessions
