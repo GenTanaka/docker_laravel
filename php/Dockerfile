@@ -5,7 +5,8 @@ RUN apt-get update \
     && apt-get -y install libzip-dev \
     && docker-php-ext-install pdo_mysql mysqli mbstring zip\
     && docker-php-ext-enable mysqli \
-    && a2enmod rewrite
+    && a2enmod rewrite \
+    && apt install -y nodejs npm
 
 # composerのインストール
 RUN curl -sS https://getcomposer.org/installer | php \
