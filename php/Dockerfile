@@ -13,6 +13,10 @@ RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer \
     && chmod +x /usr/local/bin/composer
 
+# Node.js,npmのインストール
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN apt-get install -y nodejs npm
+
 WORKDIR /var/www/html
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
